@@ -24,12 +24,12 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <form action="{{route('cars-list.store')}}" method="POST">
+                        <form action="{{route('cars-list.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <!-- text input -->
                             <div class="form-group">
                                 <label>Kategoriyasi</label>
-                                <select class="form-control select2bs4" style="width: 100%;">
+                                <select class="form-control select2bs4" style="width: 100%;" name="category_id" id="category_id">
                                     <option selected="selected">---</option>
                                     @foreach($categories as $category)
                                         <option value="{{$category->id}}">{{$category->name_uz}}</option>
@@ -39,10 +39,10 @@
 
                             <div class="form-group">
                                 <label>Pozitsiyasi</label>
-                                <select class="form-control select2bs4" style="width: 100%;">
+                                <select class="form-control select2bs4" style="width: 100%;" name="sub_category_id" id="sub_category_id">
                                     <option selected="selected">---</option>
-                                    @foreach($categories as $category)
-                                        <option value="{{$category->id}}">{{$category->name_uz}}</option>
+                                    @foreach($sub_categories as $sub_category)
+                                        <option value="{{$sub_category->id}}">{{$sub_category->name_uz}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -54,12 +54,12 @@
 
                             <div class="form-group">
                                 <label>Rangi</label>
-                                <input type="text" class="form-control my-colorpicker1" placeholder="Color ...">
+                                <input type="text" name="color" class="form-control my-colorpicker1" placeholder="Color ...">
                             </div>
 
                             <div class="form-group">
                                 <label>Rasmi</label>
-                                <input type="file" class="form-control" accept=".png,.jpg,.jpeg,.svg">
+                                <input type="file" name="photo" class="form-control" accept=".png,.jpg,.jpeg,.svg">
                             </div>
 
                             <!-- textarea -->
@@ -81,13 +81,30 @@
     </section>
 @endsection
 @push('js')
-    <script>
-        console.log(2222);
+    <script type="text/javascript">
         $('.my-colorpicker1').colorpicker()
 
         $('.summernote').summernote({
             height: 150
         });
+
+        $('#category_id').change(function (){
+            let id = $(this).val();
+            let url = "{{route('sub-category', ":id")}}"
+            url = url.replace(':id', id)
+            $.ajax({
+                url: url,
+                type: 'get',
+                dataType: 'JSON',
+                success: function (data){
+                    $('#sub_category_id').empty();
+                    $('#sub_category_id').append('<option>---</option>')
+                    data.forEach(function (v, i){
+                        $('#sub_category_id').append('<option value='+v.id+'>'+ v.name_uz+'</option>')
+                    })
+                }
+            })
+        })
 
     </script>
 @endpush

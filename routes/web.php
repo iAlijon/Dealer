@@ -21,6 +21,7 @@ Route::group(['prefix' => 'admin'], function (){
     Route::resources([
         'cars-list' => \App\Http\Controllers\Admin\CarsController::class,
     ]);
+    Route::get('/sub-category/{id}', [\App\Http\Controllers\Admin\CarsController::class, 'subCategorySelect'])->name('sub-category');
 //    Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 //    Route::get('logout', [\App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('logout');
 });

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SubCategory extends Model
 {
     use HasFactory;
-    protected $fillable = ['*'];
+    protected $fillable = ['id', 'name_uz', 'name_ru', 'name_en', 'category_id'];
     protected $casts = [
         'category_id' => 'integer',
         'sub_category_id' => 'integer',
@@ -16,4 +16,9 @@ class SubCategory extends Model
         'name_ru' => 'string',
         'name_en' => 'string',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }

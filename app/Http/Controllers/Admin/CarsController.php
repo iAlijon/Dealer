@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CarsRequest;
 use App\Models\Cars;
 use App\Models\Category;
+use App\Models\SubCategory;
 use App\Repositories\Admin\CarRepository;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,6 @@ class CarsController extends Controller
      */
     public function index()
     {
-
         return view('admin.car-list.index');
     }
 
@@ -35,8 +35,9 @@ class CarsController extends Controller
      */
     public function create()
     {
-        $category = Category::all();
-        return view('admin.car-list.create', ['categories' => $category]);
+        $category = Category::orderBy('id', 'asc')->get();
+        $sub_category_id = SubCategory::orderBy('id', 'asc')->get();
+        return view('admin.car-list.create', ['categories' => $category, 'sub_categories' => $sub_category_id]);
     }
 
     /**
@@ -48,7 +49,6 @@ class CarsController extends Controller
     public function store(CarsRequest $request)
     {
         $input = $this->repo->create($request->validated());
-
 
     }
 
@@ -95,5 +95,11 @@ class CarsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function subCategorySelect($id)
+    {
+        $result = SubCategory::where('category_id', $id)->get();
+        return response()->json($result);
     }
 }

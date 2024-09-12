@@ -16,13 +16,7 @@ class CarRepository extends BaseRepository
 
     public function create($data)
     {
-        $arr = [];
-        foreach ($data['info'] as $info)
-        {
-            if ($info['file']){
-                $image = UploadRepository::upload($info['file'], 'cars');
-            }
-        }
+
         $model = $this->model->create([
             'model' => $data['model'],
             'category_id' => $data['category_id'],
