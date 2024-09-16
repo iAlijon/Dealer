@@ -64,7 +64,8 @@ class CarsController extends Controller
      */
     public function show($id)
     {
-        //
+        $models = Cars::whereId($id)->get();
+        return view('admin.car-list.show', compact('models'));
     }
 
     /**
@@ -75,7 +76,10 @@ class CarsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $carId = Cars::find($id);
+        $categories = Category::select('id', 'name_uz')->get();
+        $sub_categories = SubCategory::select('id', 'name_uz')->get();
+        return view('admin.car-list.edit', ['carItem' => $carId, 'categories' => $categories, 'sub_categories' => $sub_categories]);
     }
 
     /**
