@@ -24,9 +24,11 @@ class CarsRequest extends FormRequest
     public function rules()
     {
         return [
-            'category' => 'required',
-            'sub_category' => 'required',
+            'category_id' => 'required',
+            'sub_category_id' => 'required',
             'model' => 'required',
+            'price' => 'required',
+            'color' => 'required',
             'photo' => 'required|file|mimes:jpg,jpeg,svg,png|max:2048',
             'info' => 'nullable'
         ];

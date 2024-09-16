@@ -8,9 +8,8 @@ use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller
 {
-    public function selectSubCategory($id)
+    public function subCategorySelect($id)
     {
-
         $sub_category =  SubCategory::where('category_id', $id)->get();
         return response()->json($sub_category);
     }

@@ -330,7 +330,7 @@ return [
         ],
         [
             'text' => 'Extiyot Qisimlar',
-            'url' => 'admin/services',
+            'url' => 'admin/spare-parts',
             'icon' => 'fas fa-fw fa-wrench',
         ],
 

@@ -16,11 +16,12 @@ class CreateCarsTable extends Migration
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
             $table->string('model');
+            $table->bigInteger('price');
             $table->integer('category_id');
             $table->integer('sub_category_id');
             $table->string('color');
             $table->string('photo');
-            $table->jsonb('info');
+            $table->text('info');
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories');

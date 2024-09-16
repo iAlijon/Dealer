@@ -20,8 +20,9 @@ Route::group(['prefix' => 'admin'], function (){
     Route::get('/home', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('home');
     Route::resources([
         'cars-list' => \App\Http\Controllers\Admin\CarsController::class,
+        'spare-parts' => \App\Http\Controllers\Admin\SparePartsConntroller::class
     ]);
-    Route::get('/sub-category/{id}', [\App\Http\Controllers\Admin\CarsController::class, 'subCategorySelect'])->name('sub-category');
+    Route::get('/sub-category/{id}', [\App\Http\Controllers\Admin\SubCategoryController::class, 'subCategorySelect'])->name('sub-category');
 //    Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 //    Route::get('logout', [\App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('logout');
 });

@@ -3,23 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\CarsRequest;
-use App\Http\Resources\Admin\CarsItemResource;
-use App\Models\Cars;
-use App\Models\Category;
-use App\Models\SubCategory;
-use App\Repositories\Admin\CarRepository;
-use App\Traits\Upload;
 use Illuminate\Http\Request;
 
-class CarsController extends Controller
+class SparePartsConntroller extends Controller
 {
-    protected $repo;
-    public function __construct(CarRepository $repo)
-    {
-        $this->repo = $repo;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -27,8 +14,7 @@ class CarsController extends Controller
      */
     public function index()
     {
-        $models = $this->repo->index();
-        return view('admin.car-list.index', ['items' => $models]);
+        //
     }
 
     /**
@@ -38,9 +24,7 @@ class CarsController extends Controller
      */
     public function create()
     {
-        $category = Category::orderBy('id', 'asc')->get();
-        $sub_category_id = SubCategory::orderBy('id', 'asc')->get();
-        return view('admin.car-list.create', ['categories' => $category, 'sub_categories' => $sub_category_id]);
+        //
     }
 
     /**
@@ -49,11 +33,9 @@ class CarsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CarsRequest $request)
+    public function store(Request $request)
     {
-        $carsItem = Cars::create($request->validated());
-        $carsItem->upload($request);
-        return redirect()->route('cars-list.index')->with(['message' => 'Success info']);
+        //
     }
 
     /**
