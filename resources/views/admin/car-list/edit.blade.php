@@ -22,9 +22,10 @@
                     </div>
                     <!-- /.card-header -->
 
-                    <form action="{{route('cars-list.store')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('cars-list.update', $carItem->id)}}" method="post" enctype="multipart/form-data">
                         <div class="card-body">
                         @csrf
+                        @method('PUT')
                         <!-- text input -->
                             <div class="form-group">
                                 <label>Kategoriyasi</label>
@@ -34,7 +35,8 @@
                                         id="category_id">
                                     <option selected="selected">---</option>
                                     @foreach($categories as $category)
-                                        <option value="{{$category->id}}" {{$carItem->category_id == $category->id?'selected':''}}>
+                                        <option
+                                            value="{{$category->id}}" {{$carItem->category_id == $category->id?'selected':''}}>
                                             {{$category->name_uz}}
                                         </option>
                                     @endforeach
@@ -49,7 +51,8 @@
                                         id="sub_category_id">
                                     <option selected="selected">---</option>
                                     @foreach($sub_categories as $sub_category)
-                                        <option value="{{$sub_category->id}}" {{$carItem->sub_category_id == $sub_category->id?'selected':''}}>
+                                        <option
+                                            value="{{$sub_category->id}}" {{$carItem->sub_category_id == $sub_category->id?'selected':''}}>
                                             {{$sub_category->name_uz}}
                                         </option>
                                     @endforeach
@@ -58,26 +61,30 @@
 
                             <div class="form-group">
                                 <label>Madeli</label>
-                                <input type="text" name="model" value="{{$carItem->model}}" class="form-control" placeholder="Model ...">
+                                <input type="text" name="model" value="{{$carItem->model}}" class="form-control"
+                                       placeholder="Model ...">
                                 <small class="text-danger">{{$errors->first('model')}}</small>
                             </div>
 
                             <div class="form-group">
                                 <label>Narxi</label>
-                                <input type="number" name="price" value="{{$carItem->price}}" class="form-control" placeholder="Price ...">
+                                <input type="number" name="price" value="{{$carItem->price}}" class="form-control"
+                                       placeholder="Price ...">
                                 <small class="text-danger">{{$errors->first('price')}}</small>
                             </div>
 
                             <div class="form-group">
                                 <label>Rangi</label>
-                                <input type="text" name="color"  value="{{$carItem->color}}" class="form-control my-colorpicker1"
+                                <input type="text" name="color" value="{{$carItem->color}}"
+                                       class="form-control my-colorpicker1"
                                        placeholder="Color ...">
                                 <small class="text-danger">{{$errors->first('color')}}</small>
                             </div>
 
                             <div class="form-group">
                                 <label>Rasmi</label>
-                                <input type="file" name="photo"  value="{{$carItem->photo}}" class="form-control" accept=".png,.jpg,.jpeg,.svg">
+                                <input type="file" name="photo" value="{{$carItem->photo}}" class="form-control"
+                                       accept=".png,.jpg,.jpeg,.svg">
                                 <small class="text-danger">{{$errors->first('photo')}}</small>
                             </div>
 

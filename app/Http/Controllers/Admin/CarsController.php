@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 class CarsController extends Controller
 {
     protected $repo;
+
     public function __construct(CarRepository $repo)
     {
         $this->repo = $repo;
@@ -25,9 +26,20 @@ class CarsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $models = $this->repo->index();
+        $result = $request->all();
+        $models = Cars::query();
+        if (isset($result['model']) && empty($resultp['model'])) {
+            $models = Cars::where('model', 'ilike', '%' . $result['model'] . '%');
+        }
+        if (isset($result['category_id']) && empty($resultp['category_id'])) {
+            $models = Cars::where('category_id', $result['category_id']);
+        }
+        if (isset($result['sub_category_id']) && empty($resultp['sub_category_id'])) {
+            $models = Cars::where('sub_category_id            ', $result['sub_category_id']);
+        }
+        $models = $models->orderBy('created_at', 'desc')->paginate(20);
         return view('admin.car-list.index', ['items' => $models]);
     }
 
@@ -46,7 +58,7 @@ class CarsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(CarsRequest $request)
@@ -59,7 +71,7 @@ class CarsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -71,7 +83,7 @@ class CarsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -85,19 +97,30 @@ class CarsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CarsRequest $request, $id)
     {
-        //
+        $input = $request->all();
+        $carUpdate = Cars::find($id);
+        $carUpdate->update([
+            'model' => $input['model'],
+            'category_id' => $input['category_id'],
+            'sub_category_id' => $input['sub_category_id'],
+            'color' => $input['color'],
+            'price' => $input['price'],
+            'info' => $input['info']
+        ]);
+        $carUpdate->upload($request);
+        return redirect()->route('cars-list.index')->with(['message' => 'Success update']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
