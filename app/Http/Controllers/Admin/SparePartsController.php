@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\SpareParts;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
-class SparePartsConntroller extends Controller
+class SparePartsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +17,9 @@ class SparePartsConntroller extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        $spare_parts = SpareParts::where('status', 1)->get();
+        return view('admin.spare-parts.index', compact('categories', 'spare_parts'));
     }
 
     /**
@@ -24,7 +29,7 @@ class SparePartsConntroller extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.spare-parts.create');
     }
 
     /**

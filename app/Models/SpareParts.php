@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class SpareParts extends Model
+{
+    use HasFactory;
+
+    protected $table = 'spare_parts';
+    protected $fillable = [
+        'name_uz',
+        'name_ru',
+        'name_en',
+        'category_id',
+        'sub_category_id',
+        'car_id',
+        'photo',
+        'info'
+    ];
+}

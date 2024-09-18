@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CarsRequest;
-use App\Http\Resources\Admin\CarsItemResource;
 use App\Models\Cars;
 use App\Models\Category;
 use App\Models\SubCategory;
@@ -37,7 +36,7 @@ class CarsController extends Controller
             $models = Cars::where('category_id', $result['category_id']);
         }
         if (isset($result['sub_category_id']) && empty($resultp['sub_category_id'])) {
-            $models = Cars::where('sub_category_id            ', $result['sub_category_id']);
+            $models = Cars::where('sub_category_id', $result['sub_category_id']);
         }
         $models = $models->orderBy('created_at', 'desc')->paginate(20);
         return view('admin.car-list.index', ['items' => $models]);
@@ -125,6 +124,11 @@ class CarsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $request = Cars::find($id);
+        $request->deleteFile($request);
+        if($request->delete())
+            return true;
+        else
+            return  false;
     }
 }

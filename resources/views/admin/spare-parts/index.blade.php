@@ -1,34 +1,13 @@
 @extends('adminlte::page')
 
-@push('css')
-    <style>
-        .color {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-        }
+@section('title', 'Extiyot qsim qo\'shish')
 
-        th {
-            color: #17a2b8;
-        }
-
-        a {
-            color: #17a2b8;
-        }
-
-        a:hover {
-            color: #17a2b8;
-        }
-    </style>
-    @php($categories = \App\Models\Category::all())
-    @php($sub_categories = \App\Models\SubCategory::all())
-@endpush
 @section('content')
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Mashinalar ro'yxati</h1>
+                    <h1>Extiyot qsimlar ro'yxati</h1>
                 </div>
 
             </div>
@@ -46,7 +25,7 @@
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right p-0 bg-0">
                                     <li>
-                                        <a href="{{route('cars-list.create')}}" class="btn btn-info text-right"><i
+                                        <a href="{{route('spare-parts.create')}}" class="btn btn-info text-right"><i
                                                 class="fas fa-cart-plus"></i> Qo'shish</a>
                                     </li>
                                 </ol>
@@ -61,10 +40,10 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Model</th>
+                                <th>Extiyot qsim nomi</th>
                                 <th>Kategoriyasi</th>
-                                <th>Pozitsiyasi</th>
                                 <th>Narx</th>
+                                <th>Miqdori</th>
                                 <th>H/R</th>
                             </tr>
                             <form action="">
@@ -72,8 +51,8 @@
                                 <button type="submit" class="d-none"></button>
                                 <tr>
                                     <th></th>
-                                    <th><input type="text" name="model"
-                                               value="{{isset($filter->model)?$filter->model:''}}"
+                                    <th><input type="text" name="name_uz"
+                                               value="{{isset($filter->name_uz)?$filter->name_uz:''}}"
                                                class="form-control form-control-sm"></th>
                                     <th>
                                         <select name="category_id" id="category_id" onchange="this.form.submit()"
@@ -87,34 +66,23 @@
                                             @endforeach
                                         </select>
                                     </th>
-                                    <th>
-                                        <select name="sub_category_id" id="sub_category_id"
-                                                onchange="this.form.submit()"
-                                                class="form-control form-control-sm select2bs4">
-                                            <option value="">---</option>
-                                            @foreach($sub_categories as $sub_category)
-                                                <option
-                                                    value="{{$sub_category->id}}"
-                                                    {{isset($filter->sub_category_id)?$filter->sub_category_id == $sub_category->id:false?'selected':''}}
-                                                >{{$sub_category->name_uz}}</option>
-                                            @endforeach
-                                        </select>
-                                    </th>
+                                    <th></th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                             </form>
                             </thead>
                             <tbody>
-                            @foreach($items as $key => $item)
+                            @foreach($spare_parts as $key => $item)
                                 <tr>
                                     <td>{{$key + 1}}</td>
                                     <td>{{$item->model}}</td>
                                     <td>{{$item->category->name_uz}}</td>
-                                    <td>{{$item->subCategory->name_uz}}</td>
                                     <td>{{$item->price}}</td>
+                                    <td>{{$item->count}}</td>
                                     <td class="d-flex justify-content-around">
-                                        <a href="{{route('cars-list.show', $item->id)}}"><i class="fas fa-eye"></i></a>
-                                        <a href="{{route('cars-list.edit', $item->id)}}"><i class="fas fa-edit"></i></a>
+                                        <a href="{{route('spare-parts.show', $item->id)}}"><i class="fas fa-eye"></i></a>
+                                        <a href="{{route('spare-parts.edit', $item->id)}}"><i class="fas fa-edit"></i></a>
                                         <a class="trash-car" href="#"
                                            data-id="{{$item->id}}"><i class="fas fa-trash"></i></a>
                                     </td>
@@ -130,38 +98,3 @@
         </div>
     </div>
 @endsection
-@push('js')
-    <script type="text/javascript">
-        $('.trash-car').click(function () {
-            let car_id = $(this).data('id');
-            let url = "{!! route('cars-list.destroy', ':car_id') !!}";
-            url = url.replace(':car_id', car_id);
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: url,
-                type: "delete",
-                dataType: "JSON",
-                statusCode:{
-                  200: function (){
-                      window.location = "{{route('cars-list.index')}}"
-                  },
-                  500: function (){
-
-                  }
-                },
-                {{--success: function (data) {--}}
-                {{--    if (data)--}}
-                {{--        toastr.success('success', 'success');--}}
-                {{--        window.location = "{{route('cars-list.index')}}";--}}
-                {{--        location.reload()--}}
-                {{--}--}}
-            })
-        });
-    </script>
-@endpush
-
-
