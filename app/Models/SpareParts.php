@@ -15,9 +15,11 @@ class SpareParts extends Model
         'name_ru',
         'name_en',
         'category_id',
-        'sub_category_id',
-        'car_id',
         'photo',
         'info'
+    ];
+
+    protected $casts = [
+      'photo' => 'array'
     ];
 }

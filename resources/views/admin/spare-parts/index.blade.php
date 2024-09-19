@@ -44,6 +44,7 @@
                                 <th>Kategoriyasi</th>
                                 <th>Narx</th>
                                 <th>Miqdori</th>
+                                <th>Status</th>
                                 <th>H/R</th>
                             </tr>
                             <form action="">
@@ -69,6 +70,7 @@
                                     <th></th>
                                     <th></th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </form>
                             </thead>
@@ -80,6 +82,10 @@
                                     <td>{{$item->category->name_uz}}</td>
                                     <td>{{$item->price}}</td>
                                     <td>{{$item->count}}</td>
+                                    <td>
+                                        <input type="checkbox" name="my-checkbox" checked data-bootstrap-switch>
+                                        <input type="checkbox" name="my-checkbox" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+                                    </td>
                                     <td class="d-flex justify-content-around">
                                         <a href="{{route('spare-parts.show', $item->id)}}"><i class="fas fa-eye"></i></a>
                                         <a href="{{route('spare-parts.edit', $item->id)}}"><i class="fas fa-edit"></i></a>

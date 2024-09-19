@@ -29,7 +29,8 @@ class SparePartsController extends Controller
      */
     public function create()
     {
-        return view('admin.spare-parts.create');
+        $categories = Category::all();
+        return view('admin.spare-parts.create', compact('categories'));
     }
 
     /**

@@ -18,15 +18,14 @@ class CreateSparePartsTable extends Migration
             $table->string('name_uz');
             $table->string('name_ru')->nullable();
             $table->string('name_en')->nullable();
-            $table->integer('car_id');
             $table->integer('category_id');
-            $table->integer('sub_category_id');
+            $table->integer('status')->default(0);
+            $table->bigInteger('price');
+            $table->string('photo');
             $table->text('info');
             $table->timestamps();
 
-            $table->foreign('car_id')->references('id')->on('cars');
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->foreign('sub_category_id')->references('id')->on('sub_categories');
         });
     }
 
