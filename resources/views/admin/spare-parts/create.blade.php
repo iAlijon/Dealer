@@ -40,9 +40,9 @@
             justify-content: center;
             color: #2060FF;
         }
-        .plus:after {
-            content: '+';
-        }
+        /*.plus:after {*/
+        /*    content: '+';*/
+        /*}*/
 
         .cross {
             width: 15px;
@@ -69,7 +69,25 @@
             width: 100px;
             height: 100px;
             text-align: center;
+            background-image: url("{{asset('assets/image.png')}}");
+            background-repeat: no-repeat;
+            background-color: transparent;
+            position: relative;
         }
+
+        #placeholder:hover .div-up{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            background-color: rgba(255,255,255,0);
+        }
+
+        @keyframes  {
+
+        }
+
+
     </style>
 @endpush
 @section('content')
@@ -85,11 +103,11 @@
     <div class="content">
         <div class="row">
             <div class="col-12">
-                <div class="card card-outline card-info">
+                <div class="card card-outline card-success">
                     <div class="card-header">
-
+                        <i class="fas fa-fw fa-wrench"></i>
                     </div>
-                    <form action="{{route('spare-parts.create')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('spare-parts.store')}}" method="post" enctype="multipart/form-data">
                         <div class="card-body">
                             @csrf
                             <div class="form-group">
@@ -106,10 +124,12 @@
                                 <label>Nomi</label>
                                 <input type="text" name="name_uz" placeholder="Name..." class="form-control">
                             </div>
+
                             <div class="form-group">
                                 <label>Narxi</label>
                                 <input type="text" name="price" placeholder="Name..." class="form-control">
                             </div>
+
                             <div class="form-group">
                                 <label>Rasm</label>
                                 <div id="img_container">
@@ -117,48 +137,24 @@
                                         <label class="img_label" for="placeholder_input">
                                             <div class="plus"></div>
                                         </label>
-                                        <input type='file' id="placeholder_input" class="hidden" accept="image/*" onchange='openFiles(event)' multiple>
+                                        <input type='file' id="placeholder_input" class="hidden" accept="jpg,png,jpeg" name="photo[]" onchange='openFiles(event)' multiple>
                                     </div>
                                 </div>
                             </div>
-
-{{--                            <div class="form-group" id="disBlock">--}}
-{{--                                <label>Rasm</label>--}}
-{{--                                <input type="file" class="form-control" name="photo">--}}
-{{--                            </div>--}}
-
-{{--                            <div class="form-group">--}}
-{{--                                <label>Bir nechta rasm tanlayszmi</label>--}}
-{{--                                <br>--}}
-{{--                                <input type="checkbox" id="checkbox" name="checkbox">--}}
-{{--                            </div>--}}
-{{--                            <div id="img_container">--}}
-{{--                                <div id="placeholder">--}}
-{{--                                    <div class="form-group d-none">--}}
-{{--                                        <label>Rasm 1</label>--}}
-{{--                                        <input type="file" name="photo_1" class="form-control">--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="form-group d-none">--}}
-{{--                                    <label>Rasm 2</label>--}}
-{{--                                    <input type="file" name="photo_2" class="form-control">--}}
-{{--                                </div>--}}
-
-{{--                                <div class="form-group d-none">--}}
-{{--                                    <label>Rasm 3</label>--}}
-{{--                                    <input type="file" name="photo_3" class="form-con trol">--}}
-{{--                                </div>--}}
-
-{{--                                <div class="form-group d-none">--}}
-{{--                                    <label>Rasm 4</label>--}}
-{{--                                    <input type="file" name="photo_4" class="form-control">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
 
                             <div class="form-group" id="mulImg">
                                 <label>To'liq ma'lumot</label>
                                 <textarea class="summernote" name="info"></textarea>
                             </div>
+
+                            <div class="form-group switch">
+                                <label>Xolati</label>
+                                <br>
+                                <input type="checkbox" name="status" id="my-checkbox" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+                            </div>
+                        </div>
+                        <div class="card-footer text-right">
+                            <button class="btn btn-success"><i class="fas fa-save"></i>  Saqlash</button>
                         </div>
                     </form>
                 </div>
@@ -172,14 +168,8 @@
         $('.summernote').summernote({
             height: 150
         });
+        $('#my-checkbox').bootstrapSwitch();
 
-        // $('#checkbox').click(function (){
-        //     let disBlock = document.getElementById('disBlock');
-        //     console.log(disBlock);
-        //     if ($(this).is(':checked')){
-        //         disBlock.classList.add('disBlock')
-        //     }
-        // })
         var container = document.getElementById('img_container');
         var placeholder = document.getElementById('placeholder');
 
@@ -220,7 +210,7 @@
                 {
                     'type': 'file',
                     'class': 'hidden',
-                    'accept': 'image/*',
+                    'accept': 'image/jpg,png,jpeg',
                     id: id
                 }
             );
@@ -246,6 +236,7 @@
         // handler for the onChange event of the placeholder's file input
         function openFiles(evt) {
             var files = evt.target.files;
+            console.log(files)
             for (let i = 0; i < files.length; i++) {
                 var file = files.item(i);
                 loadImage(file, function(dataURL){

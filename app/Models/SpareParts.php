@@ -16,7 +16,8 @@ class SpareParts extends Model
         'name_en',
         'category_id',
         'photo',
-        'info'
+        'info',
+        'status'
     ];
 
     protected $casts = [

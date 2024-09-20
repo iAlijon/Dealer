@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\SparePartsRequest;
 use App\Models\Category;
 use App\Models\SpareParts;
 use App\Models\SubCategory;
@@ -41,7 +42,8 @@ class SparePartsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        dd($input);
     }
 
     /**
